@@ -34,6 +34,10 @@ public class OAuthAttributes {
             return ofKakao(userNameAttributeName, attributes);
         }
 
+        if (registrationId.contentEquals("facebook")) {
+            return ofFacebook(userNameAttributeName, attributes);
+        }
+
         return ofGoogle(userNameAttributeName, attributes);
     }
 
@@ -42,6 +46,16 @@ public class OAuthAttributes {
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .picture((String) attributes.get("picture"))
+                .attributes(attributes)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+    }
+
+    private static OAuthAttributes ofFacebook(String userNameAttributeName, Map<String, Object> attributes) {
+        return OAuthAttributes.builder()
+                .name((String) attributes.get("name"))
+                .email((String) attributes.get("email"))
+                .picture(null)
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
